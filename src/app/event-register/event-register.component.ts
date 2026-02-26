@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import emailjs from '@emailjs/browser';
 import {
   ReactiveFormsModule, FormGroup, FormControl,
   Validators, AbstractControl, ValidationErrors,
 } from '@angular/forms';
-import emailjs from '@emailjs/browser';
 import { MatInputModule }       from '@angular/material/input';
 import { MatFormFieldModule }   from '@angular/material/form-field';
 import { MatRadioModule }       from '@angular/material/radio';
@@ -75,7 +75,7 @@ function passportValidator(control: AbstractControl): ValidationErrors | null {
   templateUrl: './event-register.component.html',
   styleUrl:    './event-register.component.css'
 })
-export class EventRegisterComponent implements AfterViewInit {
+export class EventRegisterComponent implements OnInit, AfterViewInit {
 
   submitted   = false;
   submittedData: any = null;
@@ -96,6 +96,10 @@ export class EventRegisterComponent implements AfterViewInit {
   constructor(private snackBar: MatSnackBar) {}
 
   /* ── Lifecycle ── */
+
+  ngOnInit(): void {
+    emailjs.init('2VHXjoxjXW7ujveAB'); // Initialize EmailJS with your Public Key
+  }
 
   ngAfterViewInit(): void {
     this.spawnStars();
@@ -293,14 +297,12 @@ export class EventRegisterComponent implements AfterViewInit {
 
   this.emailSending = true;
 
-  // ⚠️ Double check these IDs in your EmailJS Dashboard
   const SERVICE_ID  = 'service_u7spodb';
   const TEMPLATE_ID = 'template_fpxdagk';
-  const PUBLIC_KEY  = '2VHXjoxjXW7ujveAB';
 
     const templateParams = {
       to_name:     `${this.submittedData.firstName} ${this.submittedData.lastName}`,
-      to_email:    this.submittedData.email, // Ensure this matches {{to_email}} in your template
+      to_email:    this.submittedData.email,
       flight_no:   this.submittedData.flightNumber,
       airline:     this.submittedData.airline,
       origin:      this.submittedData.origin,
@@ -315,7 +317,7 @@ export class EventRegisterComponent implements AfterViewInit {
       addons:      this.submittedData.addOns?.join(', ') || 'None',
     };
 
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text);
       this.emailSending = false;
@@ -325,6 +327,8 @@ export class EventRegisterComponent implements AfterViewInit {
     .catch((err) => {
       this.emailSending = false;
       console.error('FAILED...', err);
-      this.snackBar.open('❌ Email failed to send.', 'Dismiss', { duration: 5000 });
+      // Show the actual error message so you can debug
+      const errMsg = err?.text || err?.message || JSON.stringify(err);
+      this.snackBar.open(`❌ Email failed: ${errMsg}`, 'Dismiss', { duration: 8000 });
     });
 }}

@@ -4,7 +4,7 @@ import {
   ReactiveFormsModule, FormGroup, FormControl,
   Validators, AbstractControl, ValidationErrors,
 } from '@angular/forms';
-
+import emailjs from '@emailjs/browser';
 import { MatInputModule }       from '@angular/material/input';
 import { MatFormFieldModule }   from '@angular/material/form-field';
 import { MatRadioModule }       from '@angular/material/radio';
@@ -288,18 +288,19 @@ export class EventRegisterComponent implements AfterViewInit {
 
   /* ── Email Ticket ── */
 
-  sendEmailTicket(): void {
-    if (!this.submittedData || this.emailSending || this.emailSent) return;
+ sendEmailTicket(): void {
+  if (!this.submittedData || this.emailSending || this.emailSent) return;
 
-    this.emailSending = true;
+  this.emailSending = true;
 
-    const SERVICE_ID  = 'service_u7spodb';
-    const TEMPLATE_ID = 'template_fpxdagk';
-    const PUBLIC_KEY  = '2VHXjoxjXW7ujveAB';
+  // ⚠️ Double check these IDs in your EmailJS Dashboard
+  const SERVICE_ID  = 'service_u7spodb';
+  const TEMPLATE_ID = 'template_fpxdagk';
+  const PUBLIC_KEY  = '2VHXjoxjXW7ujveAB';
 
     const templateParams = {
       to_name:     `${this.submittedData.firstName} ${this.submittedData.lastName}`,
-      to_email:    this.submittedData.email,
+      to_email:    this.submittedData.email, // Ensure this matches {{to_email}} in your template
       flight_no:   this.submittedData.flightNumber,
       airline:     this.submittedData.airline,
       origin:      this.submittedData.origin,
@@ -314,32 +315,16 @@ export class EventRegisterComponent implements AfterViewInit {
       addons:      this.submittedData.addOns?.join(', ') || 'None',
     };
 
-    this.loadEmailJS().then(() => {
-      (window as any).emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
-        .then(() => {
-          this.emailSending = false;
-          this.emailSent    = true;
-          this.snackBar.open(`📧 Ticket sent to ${this.submittedData.email}`, 'Close', {
-            duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',
-          });
-        })
-        .catch((err: any) => {
-          this.emailSending = false;
-          console.error('EmailJS error:', err);
-          this.snackBar.open('❌ Could not send email. Check your EmailJS config.', 'Dismiss', {
-            duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',
-          });
-        });
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+    .then((response) => {
+      console.log('SUCCESS!', response.status, response.text);
+      this.emailSending = false;
+      this.emailSent    = true;
+      this.snackBar.open(`📧 Ticket sent to ${this.submittedData.email}`, 'Close', { duration: 5000 });
+    })
+    .catch((err) => {
+      this.emailSending = false;
+      console.error('FAILED...', err);
+      this.snackBar.open('❌ Email failed to send.', 'Dismiss', { duration: 5000 });
     });
-  }
-
-  private loadEmailJS(): Promise<void> {
-    return new Promise((resolve) => {
-      if ((window as any).emailjs) { resolve(); return; }
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-      script.onload = () => resolve();
-      document.head.appendChild(script);
-    });
-  }
-}
+}}

@@ -1,0 +1,146 @@
+<div id="splash" [class.exit]="isExiting">
+
+  <!-- Sky Gradient Background -->
+  <div class="sky-layer"></div>
+
+  <!-- Stars -->
+  <div class="stars-layer" id="starsLayer"></div>
+
+  <!-- Horizon Atmospheric Glow -->
+  <div class="horizon-glow"></div>
+
+  <!-- Atmospheric Particles -->
+  <div class="particles-layer" id="particlesLayer"></div>
+
+  <!-- Cloud Layer (SVG Clouds) -->
+  <div class="clouds-layer">
+
+    <svg class="cloud cloud-1" style="left: -320px;" width="320" height="120" viewBox="0 0 320 120" fill="none">
+      <ellipse cx="160" cy="85" rx="145" ry="32" fill="url(#c1g1)"/>
+      <ellipse cx="100" cy="68" rx="80" ry="42" fill="url(#c1g2)"/>
+      <ellipse cx="190" cy="62" rx="95" ry="48" fill="url(#c1g3)"/>
+      <ellipse cx="130" cy="52" rx="60" ry="38" fill="url(#c1g4)"/>
+      <ellipse cx="215" cy="48" rx="70" ry="44" fill="url(#c1g5)"/>
+      <ellipse cx="170" cy="40" rx="50" ry="32" fill="url(#c1g6)"/>
+      <defs>
+        <radialGradient id="c1g1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#4a6fa5" stop-opacity="0.7"/><stop offset="100%" stop-color="#1a3a6e" stop-opacity="0.3"/></radialGradient>
+        <radialGradient id="c1g2" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#6889b8" stop-opacity="0.8"/><stop offset="100%" stop-color="#2a4a7a" stop-opacity="0.3"/></radialGradient>
+        <radialGradient id="c1g3" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#7a9ccc" stop-opacity="0.75"/><stop offset="100%" stop-color="#2e4d80" stop-opacity="0.3"/></radialGradient>
+        <radialGradient id="c1g4" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#8eadd8" stop-opacity="0.8"/><stop offset="100%" stop-color="#3a5a8a" stop-opacity="0.3"/></radialGradient>
+        <radialGradient id="c1g5" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#9fc0e8" stop-opacity="0.75"/><stop offset="100%" stop-color="#4060a0" stop-opacity="0.3"/></radialGradient>
+        <radialGradient id="c1g6" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#c2d8f5" stop-opacity="0.6"/><stop offset="100%" stop-color="#5a78b8" stop-opacity="0.2"/></radialGradient>
+      </defs>
+    </svg>
+
+    <svg class="cloud cloud-2" style="right: -280px;" width="280" height="90" viewBox="0 0 280 90" fill="none">
+      <ellipse cx="140" cy="68" rx="125" ry="22" fill="url(#c2g1)"/>
+      <ellipse cx="90" cy="54" rx="70" ry="34" fill="url(#c2g2)"/>
+      <ellipse cx="175" cy="48" rx="82" ry="38" fill="url(#c2g3)"/>
+      <ellipse cx="130" cy="38" rx="55" ry="30" fill="url(#c2g4)"/>
+      <defs>
+        <radialGradient id="c2g1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#3d5c8a" stop-opacity="0.65"/><stop offset="100%" stop-color="#162d5a" stop-opacity="0.2"/></radialGradient>
+        <radialGradient id="c2g2" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#557aaa" stop-opacity="0.7"/><stop offset="100%" stop-color="#203d70" stop-opacity="0.25"/></radialGradient>
+        <radialGradient id="c2g3" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#6d90be" stop-opacity="0.7"/><stop offset="100%" stop-color="#2a4a80" stop-opacity="0.25"/></radialGradient>
+        <radialGradient id="c2g4" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#9ab8d8" stop-opacity="0.55"/><stop offset="100%" stop-color="#4060a0" stop-opacity="0.15"/></radialGradient>
+      </defs>
+    </svg>
+
+    <svg class="cloud cloud-3" style="left: -200px;" width="200" height="70" viewBox="0 0 200 70" fill="none">
+      <ellipse cx="100" cy="52" rx="90" ry="16" fill="url(#c3g1)"/>
+      <ellipse cx="75" cy="40" rx="50" ry="26" fill="url(#c3g2)"/>
+      <ellipse cx="130" cy="36" rx="58" ry="30" fill="url(#c3g3)"/>
+      <ellipse cx="105" cy="28" rx="38" ry="22" fill="url(#c3g4)"/>
+      <defs>
+        <radialGradient id="c3g1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#2a4570" stop-opacity="0.5"/><stop offset="100%" stop-color="#0f2040" stop-opacity="0.1"/></radialGradient>
+        <radialGradient id="c3g2" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#3d6090" stop-opacity="0.55"/><stop offset="100%" stop-color="#162d58" stop-opacity="0.15"/></radialGradient>
+        <radialGradient id="c3g3" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#5078a8" stop-opacity="0.5"/><stop offset="100%" stop-color="#203860" stop-opacity="0.15"/></radialGradient>
+        <radialGradient id="c3g4" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#7898c8" stop-opacity="0.4"/><stop offset="100%" stop-color="#304878" stop-opacity="0.1"/></radialGradient>
+      </defs>
+    </svg>
+
+    <svg class="cloud cloud-4" style="right: -350px;" width="350" height="100" viewBox="0 0 350 100" fill="none">
+      <ellipse cx="175" cy="78" rx="160" ry="22" fill="url(#c4g1)"/>
+      <ellipse cx="110" cy="62" rx="88" ry="38" fill="url(#c4g2)"/>
+      <ellipse cx="220" cy="56" rx="105" ry="44" fill="url(#c4g3)"/>
+      <ellipse cx="165" cy="44" rx="72" ry="36" fill="url(#c4g4)"/>
+      <ellipse cx="240" cy="38" rx="80" ry="38" fill="url(#c4g5)"/>
+      <defs>
+        <radialGradient id="c4g1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#304e7a" stop-opacity="0.5"/><stop offset="100%" stop-color="#102040" stop-opacity="0.2"/></radialGradient>
+        <radialGradient id="c4g2" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#466898" stop-opacity="0.55"/><stop offset="100%" stop-color="#1a3260" stop-opacity="0.2"/></radialGradient>
+        <radialGradient id="c4g3" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#5880b0" stop-opacity="0.5"/><stop offset="100%" stop-color="#22407a" stop-opacity="0.2"/></radialGradient>
+        <radialGradient id="c4g4" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#6e98c8" stop-opacity="0.45"/><stop offset="100%" stop-color="#2e5090" stop-opacity="0.15"/></radialGradient>
+        <radialGradient id="c4g5" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#88b0d8" stop-opacity="0.4"/><stop offset="100%" stop-color="#385898" stop-opacity="0.12"/></radialGradient>
+      </defs>
+    </svg>
+
+    <svg class="cloud cloud-5" style="left: -250px;" width="250" height="80" viewBox="0 0 250 80" fill="none">
+      <ellipse cx="125" cy="62" rx="112" ry="18" fill="url(#c5g1)"/>
+      <ellipse cx="80" cy="48" rx="65" ry="32" fill="url(#c5g2)"/>
+      <ellipse cx="155" cy="44" rx="78" ry="36" fill="url(#c5g3)"/>
+      <ellipse cx="118" cy="34" rx="52" ry="28" fill="url(#c5g4)"/>
+      <defs>
+        <radialGradient id="c5g1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#283e62" stop-opacity="0.5"/><stop offset="100%" stop-color="#0c1a34" stop-opacity="0.15"/></radialGradient>
+        <radialGradient id="c5g2" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#3a5880" stop-opacity="0.55"/><stop offset="100%" stop-color="#162a50" stop-opacity="0.18"/></radialGradient>
+        <radialGradient id="c5g3" cx="50%" cy="25%" r="60%"><stop offset="0%" stop-color="#4e7098" stop-opacity="0.5"/><stop offset="100%" stop-color="#1e3860" stop-opacity="0.18"/></radialGradient>
+        <radialGradient id="c5g4" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#7090b8" stop-opacity="0.4"/><stop offset="100%" stop-color="#2c4878" stop-opacity="0.12"/></radialGradient>
+      </defs>
+    </svg>
+
+  </div>
+
+  <!-- Contrail -->
+  <div class="plane-contrail-main"></div>
+  <div class="plane-contrail-distant"></div>
+
+  <!-- ✈ REAL PLANE IMAGE -->
+  <div class="plane-wrapper plane-main">
+    <div class="plane-container-vertical">
+  <img src="splash-bg.png" class="plane-img-vertical" alt="Flying Plane"/>
+</div>
+    <div class="nav-light nav-light-red"></div>
+    <div class="nav-light nav-light-green"></div>
+  </div>
+
+  <!-- Distant small SVG plane -->
+  <div class="planes-layer">
+    <svg class="plane plane-distant" width="90" height="26" viewBox="0 0 90 26" fill="none">
+      <path d="M5 13 C5 10 14 8 28 8 L82 11 C88 12 91 13 89 14 L82 15 L28 17 C14 17 5 16 5 13Z" fill="url(#df1)"/>
+      <path d="M82 11 C90 11 93 13 92 13.5 C91 14 89 15 82 15Z" fill="#a0b8d0"/>
+      <path d="M36 12 L30 24 L27 23.5 L34 12Z" fill="url(#dw1)"/>
+      <path d="M36 12 L30 24 L55 12Z" fill="url(#dw2)"/>
+      <path d="M11 12.5 L7 5 L10 4.5 L14 12.5Z" fill="#3868a0"/>
+      <path d="M11 13.5 L7 21 L10 21.5 L14 13.5Z" fill="#3868a0"/>
+      <circle cx="89" cy="13" r="1" fill="#ff4040" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.1;0.9" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <defs>
+        <linearGradient id="df1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6898d0"/><stop offset="100%" stop-color="#2a5088"/></linearGradient>
+        <linearGradient id="dw1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#406888"/><stop offset="100%" stop-color="#1a3458"/></linearGradient>
+        <linearGradient id="dw2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5080a8"/><stop offset="100%" stop-color="#243c68"/></linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="editorial-top">
+      <div class="line"></div>
+      <span>EST 2026</span>
+      <div class="line"></div>
+    </div>
+
+    <div class="title-wrap">
+      <h1 class="main-title">SKYPASS</h1>
+    </div>
+
+    <p class="sub-title">BEYOND THE HORIZON</p>
+
+    <div class="loading-area">
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill"></div>
+      </div>
+      <span class="status-text" id="statusText">INITIALIZING FLIGHT SYSTEMS</span>
+    </div>
+  </div>
+
+</div>

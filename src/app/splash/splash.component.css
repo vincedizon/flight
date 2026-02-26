@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700;900&family=DM+Sans:wght@300;400;500&display=swap');
+
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #060d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Sky Gradient ── */
+.sky-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, #1a3a6e 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 20% 40%, #0f2a55 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 80% 60%, #0c1f40 0%, transparent 60%),
+    linear-gradient(180deg, #0a1628 0%, #060d1a 40%, #03080f 100%);
+  animation: skyShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes skyShift {
+  from { filter: hue-rotate(0deg) brightness(1); }
+  to   { filter: hue-rotate(8deg) brightness(1.08); }
+}
+
+/* ── Stars ── */
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur) ease-in-out infinite var(--delay);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--min-op); transform: scale(1); }
+  50%       { opacity: var(--max-op); transform: scale(1.4); }
+}
+
+/* ── Horizon Glow ── */
+.horizon-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top,
+    rgba(201,133,50,0.15) 0%,
+    rgba(201,133,50,0.05) 40%,
+    transparent 100%);
+  animation: horizonPulse 6s ease-in-out infinite;
+}
+
+@keyframes horizonPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* ── Clouds ── */
+.clouds-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cloud { position: absolute; opacity: 0; }
+
+.cloud-1 { top: 15%; animation: cloudDrift1 18s ease-in-out forwards 0.3s; }
+.cloud-2 { top: 28%; animation: cloudDrift2 22s ease-in-out forwards 1.2s; }
+.cloud-3 { top: 8%;  animation: cloudDrift3 20s ease-in-out forwards 0.8s; }
+.cloud-4 { top: 55%; animation: cloudDrift4 25s ease-in-out forwards 0.5s; }
+.cloud-5 { top: 42%; animation: cloudDrift5 19s ease-in-out forwards 2s; }
+
+@keyframes cloudDrift1 {
+  0%   { transform: translateX(-100px); opacity: 0; }
+  10%  { opacity: 0.55; }
+  90%  { opacity: 0.55; }
+  100% { transform: translateX(calc(100vw + 200px)); opacity: 0; }
+}
+@keyframes cloudDrift2 {
+  0%   { transform: translateX(calc(100vw + 100px)); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateX(-300px); opacity: 0; }
+}
+@keyframes cloudDrift3 {
+  0%   { transform: translateX(-200px); opacity: 0; }
+  10%  { opacity: 0.3; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateX(calc(100vw + 300px)); opacity: 0; }
+}
+@keyframes cloudDrift4 {
+  0%   { transform: translateX(calc(100vw + 200px)); opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.25; }
+  100% { transform: translateX(-250px); opacity: 0; }
+}
+@keyframes cloudDrift5 {
+  0%   { transform: translateX(-150px); opacity: 0; }
+  10%  { opacity: 0.35; }
+  90%  { opacity: 0.35; }
+  100% { transform: translateX(calc(100vw + 250px)); opacity: 0; }
+}
+
+/* ── Contrails ── */
+.plane-contrail-main {
+  position: absolute;
+  /* Align with center of plane: top 28% + roughly half plane height (~140px) */
+  top: calc(28% + 140px);
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.0) 5%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.12) 100%);
+  animation: contrailMain 9s cubic-bezier(0.2, 0.6, 0.4, 1) forwards 1.2s;
+  border-radius: 3px;
+  filter: blur(1.5px);
+}
+
+.plane-contrail-distant {
+  position: absolute;
+  top: calc(20% + 8px);
+  left: 0;
+  height: 1.5px;
+  width: 0;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), rgba(255,255,255,0.05));
+  animation: contrailDistant 9s ease-in-out forwards 3.5s;
+  border-radius: 1px;
+  filter: blur(0.5px);
+}
+
+@keyframes contrailMain {
+  0%   { width: 0; opacity: 0; }
+  5%   { opacity: 1; }
+  60%  { width: 70vw; opacity: 0.7; }
+  100% { width: 95vw; opacity: 0; }
+}
+@keyframes contrailDistant {
+  0%   { width: 0; opacity: 0; }
+  8%   { opacity: 1; }
+  60%  { width: 55vw; opacity: 0.4; }
+  100% { width: 80vw; opacity: 0; }
+}
+
+/* 1. Remove the old .plane-wrapper, .plane-main, and .nav-light classes */
+/* 2. Add these new styles */
+
+.plane-container-static {
+  position: absolute;
+  bottom: -20px; /* Anchors it to the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;   /* Adjust width to suit your new image */
+  z-index: 5;
+  opacity: 0;
+  animation: fadeUpPlane 1.2s ease-out forwards 0.8s;
+}
+
+.plane-img-static {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* NO mix-blend-mode here - it would hide the plane */
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+}
+
+@keyframes fadeUpPlane {
+  from { 
+    opacity: 0; 
+    transform: translateX(-50%) translateY(40px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(-50%) translateY(0); 
+  }
+}
+.plane-container-vertical {
+  position: absolute;
+  bottom: -500px; /* Increased to account for larger size */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;   /* Increased from 250px to 450px */
+  z-index: 5;
+  opacity: 0;
+  animation: planeFlyUp 6s ease-in-out forwards 0.5s;
+}
+
+.plane-img-vertical {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Removed mix-blend-mode: multiply as it hides the image */
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
+}
+
+@keyframes planeFlyUp {
+  0% {
+    bottom: -500px;
+    opacity: 0;
+    transform: translateX(-50%) scale(1);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 120%; 
+    opacity: 1;
+    /* Scale increases to 1.5 to make it feel like it's approaching the viewer */
+    transform: translateX(-50%) scale(1.5); 
+  }
+}
+.plane-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* REMOVE THIS LINE: mix-blend-mode: multiply; */
+  filter:
+    drop-shadow(0 0 30px rgba(100, 160, 255, 0.6))
+    drop-shadow(0 0 60px rgba(100, 160, 255, 0.3))
+    drop-shadow(0 8px 20px rgba(0, 0, 0, 0.8));
+}
+
+/* Nav blink lights overlaid on real plane */
+.nav-light {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.nav-light-red {
+  /* Wing tip right side of image */
+  bottom: 30%;
+  right: 8%;
+  background: #ff2020;
+  box-shadow: 0 0 10px #ff2020, 0 0 22px rgba(255,32,32,0.7);
+  animation: navBlink 1.1s step-end infinite;
+}
+
+.nav-light-green {
+  /* Wing tip left side */
+  bottom: 22%;
+  left: 28%;
+  background: #20ff70;
+  box-shadow: 0 0 10px #20ff70, 0 0 22px rgba(32,255,112,0.7);
+  animation: navBlink 1.1s step-end infinite 0.55s;
+}
+
+@keyframes navBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+
+
+/* ── Distant SVG Plane ── */
+.planes-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.plane { position: absolute; opacity: 0; }
+
+.plane-distant {
+  top: 20%;
+  left: -150px;
+  animation: distantPlane 9s ease-in-out forwards 3.5s;
+  filter: drop-shadow(0 2px 10px rgba(150,200,255,0.25));
+}
+
+@keyframes distantPlane {
+  0%   { transform: translateX(0) translateY(0px); opacity: 0; }
+  8%   { opacity: 0.7; }
+  50%  { transform: translateX(55vw) translateY(-12px); opacity: 0.7; }
+  92%  { opacity: 0.7; }
+  100% { transform: translateX(120vw) translateY(-22px); opacity: 0; }
+}
+
+/* ── Particles ── */
+.particles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  animation: particleDrift var(--dur) linear infinite var(--delay);
+}
+
+@keyframes particleDrift {
+  0%   { transform: translateY(100vh) translateX(var(--x-start)); opacity: 0; }
+  10%  { opacity: var(--max-op); }
+  90%  { opacity: var(--max-op); }
+  100% { transform: translateY(-20px) translateX(var(--x-end)); opacity: 0; }
+}
+
+/* ── Content ── */
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+}
+
+.editorial-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  letter-spacing: 6px;
+  font-size: 10px;
+  color: #c9a84c;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeIn 1s forwards 0.5s;
+}
+
+.line { width: 30px; height: 1px; background: #c9a84c; }
+
+.title-wrap { overflow: hidden; }
+
+.main-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 15vw, 10rem);
+  font-weight: 900;
+  margin: 0;
+  line-height: 0.85;
+  letter-spacing: -3px;
+  background: linear-gradient(135deg, #ffffff 0%, #e8d5a3 40%, #c9a84c 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform: translateY(100%);
+  animation: revealUp 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.8s;
+}
+
+.sub-title {
+  font-size: 11px;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.5);
+  margin: 14px 0 0 0;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeIn 1s forwards 1.6s;
+}
+
+/* ── Loading ── */
+.loading-area {
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards 2.2s;
+}
+
+.loading-bar-track {
+  width: 200px;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto 10px;
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, transparent, #c9a84c, #fff);
+  animation: loadFill 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards 2.4s;
+  width: 0%;
+  box-shadow: 0 0 8px rgba(201,168,76,0.8);
+}
+
+@keyframes loadFill {
+  0%   { width: 0%; }
+  30%  { width: 35%; }
+  60%  { width: 65%; }
+  85%  { width: 85%; }
+  100% { width: 100%; }
+}
+
+.status-text {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: rgba(201,168,76,0.65);
+  display: block;
+  mix-blend-mode: multiply;
+  transition: opacity 0.3s ease;
+}
+
+.status-text::after {
+  content: '|';
+  animation: blink 0.8s step-end infinite;
+  color: #c9a84c;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Exit ── */
+#splash.exit {
+  transform: translateY(-100%);
+  transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+@keyframes revealUp { to { transform: translateY(0); } }
+@keyframes fadeIn   { to { opacity: 1; } }

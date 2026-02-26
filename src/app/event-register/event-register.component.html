@@ -1,0 +1,474 @@
+<body style="margin:0;padding:0;background:#0a1628;font-family:'Segoe UI',Arial,sans-serif; -webkit-font-smoothing: antialiased; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"></body>
+<div class="page-wrapper">
+
+  <!-- ═══ BACKGROUND: Stars · Clouds ═══ -->
+  <div class="bg-stars" id="bgStars"></div>
+  <div class="bg-clouds" id="bgClouds"></div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar">
+    <div class="brand">
+      <mat-icon class="brand-icon-mat">flight</mat-icon>
+      <div class="brand-text">
+        <span class="brand-name">Sky<span class="brand-gold">Pass</span></span>
+        <span class="brand-sub">Online Passenger Registration</span>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✈&nbsp; Online Check-In &amp; Passenger Registration</div>
+      <h1 class="hero-title">Welcome Aboard</h1>
+      <p class="hero-sub">Complete your passenger registration and flight details to proceed with online check-in.</p>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN SPLIT LAYOUT ═══ -->
+  <div class="form-wrapper">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="left-panel">
+      <div class="left-panel-inner">
+        <div class="left-logo">Sky<span>Pass</span></div>
+        <div class="left-tagline">Beyond the Horizon</div>
+        <p class="left-desc">
+          Register your passenger details and flight information to complete your online check-in with SkyPass.
+        </p>
+
+        <!-- Step progress tracker -->
+        <div class="left-steps">
+          <div class="left-step active" id="lstep-1">
+            <div class="ls-num">1</div>
+            <div class="ls-info">
+              <div class="ls-title">Personal Info</div>
+              <div class="ls-desc">Identity &amp; contact details</div>
+            </div>
+          </div>
+          <div class="left-step" id="lstep-2">
+            <div class="ls-num">2</div>
+            <div class="ls-info">
+              <div class="ls-title">Flight Details</div>
+              <div class="ls-desc">Itinerary &amp; preferences</div>
+            </div>
+          </div>
+          <div class="left-step" id="lstep-3">
+            <div class="ls-num">3</div>
+            <div class="ls-info">
+              <div class="ls-title">Confirm</div>
+              <div class="ls-desc">Review &amp; submit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT PANEL (form) ── -->
+    <div class="right-panel">
+      <mat-stepper orientation="horizontal" linear #stepper class="custom-stepper"
+        (selectionChange)="onStepChange($event)">
+
+        <!-- ──────────── STEP 1: Personal Info ──────────── -->
+        <mat-step [stepControl]="personalForm" label="Personal Info">
+          <div class="step-card">
+            <div class="step-header">
+              <mat-icon class="step-icon">person</mat-icon>
+              <div>
+                <h2 class="step-title">Personal Information</h2>
+                <p class="step-desc">Your identity and contact details</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider><br>
+
+            <form [formGroup]="personalForm">
+              <div class="two-col">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <mat-icon matPrefix>badge</mat-icon>
+                  <input matInput formControlName="firstName" placeholder="Juan">
+                  <mat-error *ngIf="p['firstName'].invalid">First name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <mat-icon matPrefix>badge</mat-icon>
+                  <input matInput formControlName="lastName" placeholder="Dela Cruz">
+                  <mat-error *ngIf="p['lastName'].invalid">Last name is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <mat-icon matPrefix>email</mat-icon>
+                <input matInput type="email" formControlName="email" placeholder="passenger@email.com">
+                <mat-error *ngIf="p['email'].hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="p['email'].hasError('email')">Enter a valid email</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <mat-icon matPrefix>lock</mat-icon>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix type="button"
+                  (click)="hidePassword = !hidePassword"
+                  [matTooltip]="hidePassword ? 'Show password' : 'Hide password'">
+                  <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-hint>Starts with a letter · 8+ chars · letters &amp; numbers only</mat-hint>
+                <mat-error>{{ getPasswordError() }}</mat-error>
+              </mat-form-field>
+
+              <div class="field-block">
+                <span class="field-label">Gender</span>
+                <mat-radio-group formControlName="gender" class="radio-row">
+                  <mat-radio-button value="Male">Male</mat-radio-button>
+                  <mat-radio-button value="Female">Female</mat-radio-button>
+                  <mat-radio-button value="Other">Other / Prefer not to say</mat-radio-button>
+                </mat-radio-group>
+                <div class="field-error" *ngIf="p['gender'].invalid && p['gender'].touched">Gender is required</div>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Date of Birth</mat-label>
+                <mat-icon matPrefix>cake</mat-icon>
+                <input matInput [matDatepicker]="dobPicker" formControlName="birthDate" [max]="maxBirthDate">
+                <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dobPicker startView="multi-year"></mat-datepicker>
+                <mat-hint>Must be born in 2006 or earlier</mat-hint>
+                <mat-error>{{ getBirthDateError() }}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nationality</mat-label>
+                <mat-icon matPrefix>public</mat-icon>
+                <mat-select formControlName="nationality">
+                  <mat-option *ngFor="let n of nationalities" [value]="n">{{ n }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="p['nationality'].invalid">Nationality is required</mat-error>
+              </mat-form-field>
+
+              <div class="two-col">
+                <mat-form-field appearance="outline">
+                  <mat-label>Passport Number</mat-label>
+                  <mat-icon matPrefix>contact_page</mat-icon>
+                  <input matInput formControlName="passportNo" placeholder="P1234567">
+                  <mat-error>{{ getPassportError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Passport Expiry Date</mat-label>
+                  <mat-icon matPrefix>event_available</mat-icon>
+                  <input matInput [matDatepicker]="expiryPicker" formControlName="passportExpiry">
+                  <mat-datepicker-toggle matSuffix [for]="expiryPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #expiryPicker></mat-datepicker>
+                  <mat-error *ngIf="p['passportExpiry'].invalid">Expiry date is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Contact Number</mat-label>
+                <mat-icon matPrefix>phone</mat-icon>
+                <input matInput formControlName="contactNumber" placeholder="+63 9XX XXX XXXX">
+                <mat-error *ngIf="p['contactNumber'].invalid">Enter a valid contact number</mat-error>
+              </mat-form-field>
+
+              <div class="two-col">
+                <mat-form-field appearance="outline">
+                  <mat-label>Emergency Contact Name</mat-label>
+                  <mat-icon matPrefix>emergency</mat-icon>
+                  <input matInput formControlName="emergencyContact" placeholder="Full Name">
+                  <mat-error *ngIf="p['emergencyContact'].invalid">Required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Emergency Contact Number</mat-label>
+                  <mat-icon matPrefix>phone_in_talk</mat-icon>
+                  <input matInput formControlName="emergencyPhone" placeholder="+63 9XX XXX XXXX">
+                  <mat-error *ngIf="p['emergencyPhone'].invalid">Required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="step-actions">
+                <button mat-raised-button color="primary" matStepperNext type="button"
+                  [disabled]="personalForm.invalid" class="next-btn">
+                  Next: Flight Details&nbsp;<mat-icon>arrow_forward</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+
+        <!-- ──────────── STEP 2: Flight Details ──────────── -->
+        <mat-step [stepControl]="flightForm" label="Flight Details">
+          <div class="step-card">
+            <div class="step-header">
+              <mat-icon class="step-icon">flight_takeoff</mat-icon>
+              <div>
+                <h2 class="step-title">Flight Details</h2>
+                <p class="step-desc">Your itinerary and travel preferences</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider><br>
+
+            <form [formGroup]="flightForm">
+              <div class="two-col">
+                <mat-form-field appearance="outline">
+                  <mat-label>Flight Number</mat-label>
+                  <mat-icon matPrefix>confirmation_number</mat-icon>
+                  <input matInput formControlName="flightNumber" placeholder="PR102">
+                  <mat-error>{{ getFlightNoError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Airline</mat-label>
+                  <mat-icon matPrefix>airlines</mat-icon>
+                  <mat-select formControlName="airline">
+                    <mat-option *ngFor="let a of airlines" [value]="a">{{ a }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="f['airline'].invalid">Select an airline</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="two-col">
+                <mat-form-field appearance="outline">
+                  <mat-label>Origin (City / Airport)</mat-label>
+                  <mat-icon matPrefix>flight_land</mat-icon>
+                  <input matInput formControlName="origin" placeholder="e.g. Manila (MNL)">
+                  <mat-error *ngIf="f['origin'].invalid">Origin is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Destination (City / Airport)</mat-label>
+                  <mat-icon matPrefix>flight_takeoff</mat-icon>
+                  <input matInput formControlName="destination" placeholder="e.g. Tokyo (NRT)">
+                  <mat-error *ngIf="f['destination'].invalid">Destination is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Departure Date</mat-label>
+                <mat-icon matPrefix>event</mat-icon>
+                <input matInput [matDatepicker]="depPicker" formControlName="departureDate" [min]="minDepartureDate">
+                <mat-datepicker-toggle matSuffix [for]="depPicker"></mat-datepicker-toggle>
+                <mat-datepicker #depPicker></mat-datepicker>
+                <mat-error *ngIf="f['departureDate'].invalid">Departure date is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cabin Class</mat-label>
+                <mat-icon matPrefix>airline_seat_recline_extra</mat-icon>
+                <mat-select formControlName="cabinClass">
+                  <mat-option *ngFor="let c of cabinClasses" [value]="c">{{ c }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['cabinClass'].invalid">Select a cabin class</mat-error>
+              </mat-form-field>
+
+              <div class="field-block">
+                <span class="field-label">Seat Preference</span>
+                <mat-radio-group formControlName="seatPreference" class="radio-row">
+                  <mat-radio-button value="Window">Window</mat-radio-button>
+                  <mat-radio-button value="Middle">Middle</mat-radio-button>
+                  <mat-radio-button value="Aisle">Aisle</mat-radio-button>
+                  <mat-radio-button value="No Preference">No Preference</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Meal Preference</mat-label>
+                <mat-icon matPrefix>restaurant</mat-icon>
+                <mat-select formControlName="mealPreference">
+                  <mat-option *ngFor="let m of mealPreferences" [value]="m">{{ m }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="field-block">
+                <span class="field-label">Baggage Allowance: <strong>&nbsp;{{ f['baggageWeight'].value }} kg</strong></span>
+                <mat-slider min="7" max="40" step="1" discrete class="full-slider">
+                  <input matSliderThumb formControlName="baggageWeight">
+                </mat-slider>
+                <div class="slider-labels"><span>7 kg</span><span>40 kg</span></div>
+              </div>
+
+              <div class="field-block">
+                <span class="field-label">Add-on Services <span class="optional">(optional)</span></span>
+                <mat-chip-set class="chip-set">
+                  <mat-chip *ngFor="let item of availableAddOns"
+                    [class.chip-active]="isAddOnSelected(item)"
+                    (click)="toggleAddOn(item)"
+                    [highlighted]="isAddOnSelected(item)">
+                    {{ item }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+
+              <!-- FIXED: Both Back and Next buttons present -->
+              <div class="step-actions two-btn">
+                <button mat-stroked-button matStepperPrevious type="button" class="back-btn">
+                  <mat-icon>arrow_back</mat-icon>&nbsp;Back
+                </button>
+                <button mat-raised-button color="primary" matStepperNext type="button"
+                  [disabled]="flightForm.invalid" class="next-btn">
+                  Next: Confirm&nbsp;<mat-icon>arrow_forward</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+
+        <!-- ──────────── STEP 3: Preferences & Confirm ──────────── -->
+        <mat-step [stepControl]="prefsForm" label="Confirm">
+          <div class="step-card">
+            <div class="step-header">
+              <mat-icon class="step-icon">checklist</mat-icon>
+              <div>
+                <h2 class="step-title">Preferences &amp; Confirmation</h2>
+                <p class="step-desc">Review and submit your registration</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider><br>
+
+            <form [formGroup]="prefsForm">
+              <div class="checkbox-block">
+                <mat-checkbox formControlName="specialAssistance" color="primary">
+                  I require special assistance (wheelchair, visual/hearing impairment, etc.)
+                </mat-checkbox>
+              </div>
+              <div class="checkbox-block">
+                <mat-checkbox formControlName="travelInsurance" color="primary">
+                  I would like to add Travel Insurance to my booking
+                </mat-checkbox>
+              </div>
+              <br>
+
+              <!-- Booking summary preview -->
+              <div class="summary-preview">
+                <div class="summary-section-title"><mat-icon>summarize</mat-icon>&nbsp;Booking Summary</div>
+                <div class="summary-grid">
+                  <div class="summary-item"><span>Passenger</span><p>{{ personalForm.get('firstName')?.value }} {{ personalForm.get('lastName')?.value }}</p></div>
+                  <div class="summary-item"><span>Passport</span><p>{{ personalForm.get('passportNo')?.value || '—' }}</p></div>
+                  <div class="summary-item"><span>Flight</span><p>{{ flightForm.get('flightNumber')?.value || '—' }}</p></div>
+                  <div class="summary-item"><span>Route</span><p>{{ flightForm.get('origin')?.value || '—' }} → {{ flightForm.get('destination')?.value || '—' }}</p></div>
+                  <div class="summary-item"><span>Cabin Class</span><p>{{ flightForm.get('cabinClass')?.value || '—' }}</p></div>
+                  <div class="summary-item"><span>Baggage</span><p>{{ flightForm.get('baggageWeight')?.value }} kg</p></div>
+                  <div class="summary-item" *ngIf="addOns.length > 0"><span>Add-ons</span><p>{{ addOns.join(', ') }}</p></div>
+                </div>
+              </div>
+              <br>
+
+              <div class="checkbox-block">
+                <mat-checkbox formControlName="agreeToTerms" color="primary">
+                  I agree to the <a href="#" class="link">Terms &amp; Conditions</a>,
+                  <a href="#" class="link">Privacy Policy</a>, and airline baggage rules.
+                </mat-checkbox>
+                <div class="field-error" *ngIf="pr['agreeToTerms'].invalid && pr['agreeToTerms'].touched">
+                  You must agree to continue
+                </div>
+              </div>
+
+              <div class="step-actions two-btn">
+                <button mat-stroked-button matStepperPrevious type="button" class="back-btn">
+                  <mat-icon>arrow_back</mat-icon>&nbsp;Back
+                </button>
+                <button mat-raised-button color="primary" type="button"
+                  (click)="onSubmit()" class="next-btn submit-btn">
+                  <mat-icon>check_circle</mat-icon>&nbsp;Confirm &amp; Register
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+
+      </mat-stepper>
+    </div><!-- /right-panel -->
+
+    <!-- ═══ SUCCESS CARD (spans full width) ═══ -->
+    <div *ngIf="submitted && submittedData" class="success-card">
+      <div class="success-header">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+        <h3>Check-In Confirmed! ✈</h3>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div class="summary-grid" style="margin-top:1.25rem">
+        <div class="summary-item"><span>Name</span><p>{{ submittedData.firstName }} {{ submittedData.lastName }}</p></div>
+        <div class="summary-item"><span>Email</span><p>{{ submittedData.email }}</p></div>
+        <div class="summary-item"><span>Passport</span><p>{{ submittedData.passportNo }}</p></div>
+        <div class="summary-item"><span>Flight</span><p>{{ submittedData.flightNumber }} · {{ submittedData.airline }}</p></div>
+        <div class="summary-item"><span>Route</span><p>{{ submittedData.origin }} → {{ submittedData.destination }}</p></div>
+        <div class="summary-item"><span>Cabin</span><p>{{ submittedData.cabinClass }}</p></div>
+        <div class="summary-item"><span>Seat</span><p>{{ submittedData.seatPreference || 'No Preference' }}</p></div>
+        <div class="summary-item"><span>Baggage</span><p>{{ submittedData.baggageWeight }} kg</p></div>
+        <div class="summary-item" *ngIf="submittedData.addOns?.length > 0"><span>Add-ons</span><p>{{ submittedData.addOns.join(', ') }}</p></div>
+      </div>
+
+      <div class="success-actions">
+        <button class="btn-print" (click)="printTicket()">
+          <mat-icon>print</mat-icon>&nbsp;Print Ticket
+        </button>
+        <button class="btn-email" (click)="sendEmailTicket()" [disabled]="emailSending">
+          <mat-icon>{{ emailSent ? 'mark_email_read' : 'send' }}</mat-icon>
+          &nbsp;{{ emailSent ? 'Ticket Sent!' : 'Email My Ticket' }}
+        </button>
+        <span *ngIf="emailSending" class="email-sending">⏳ Sending…</span>
+        <span *ngIf="emailSent && !emailSending" class="email-sent">✔ Sent to {{ submittedData.email }}</span>
+      </div>
+    </div>
+
+  </div><!-- /form-wrapper -->
+
+  <!-- ═══ PRINTABLE TICKET ═══ -->
+  <div class="print-ticket-wrapper" *ngIf="submitted && submittedData">
+    <div class="print-ticket">
+      <div class="tkt-header">
+        <div class="tkt-brand">
+          <h1>Sky<span>Pass</span></h1>
+          <p>Electronic Boarding Pass</p>
+        </div>
+        <div class="tkt-flight-no">
+          <div class="fno">{{ submittedData.flightNumber }}</div>
+          <div class="aln">{{ submittedData.airline }}</div>
+        </div>
+      </div>
+      <div class="tkt-route">
+        <div class="tkt-city">
+          <div class="code">{{ submittedData.origin?.substring(0,3).toUpperCase() }}</div>
+          <div class="name">{{ submittedData.origin }}</div>
+        </div>
+        <div class="tkt-arrow">✈ ─────────────── ✈</div>
+        <div class="tkt-city" style="text-align:right">
+          <div class="code">{{ submittedData.destination?.substring(0,3).toUpperCase() }}</div>
+          <div class="name">{{ submittedData.destination }}</div>
+        </div>
+      </div>
+      <div class="tkt-tear"></div>
+      <div class="tkt-body">
+        <div class="tkt-grid">
+          <div class="tkt-field"><label>Passenger Name</label><p>{{ submittedData.firstName }} {{ submittedData.lastName }}</p></div>
+          <div class="tkt-field"><label>Passport No.</label><p>{{ submittedData.passportNo }}</p></div>
+          <div class="tkt-field"><label>Nationality</label><p>{{ submittedData.nationality }}</p></div>
+          <div class="tkt-field"><label>Departure Date</label><p>{{ submittedData.departureDate | date:'mediumDate' }}</p></div>
+          <div class="tkt-field"><label>Cabin Class</label><p>{{ submittedData.cabinClass }}</p></div>
+          <div class="tkt-field"><label>Seat Preference</label><p>{{ submittedData.seatPreference || 'No Preference' }}</p></div>
+          <div class="tkt-field"><label>Baggage</label><p>{{ submittedData.baggageWeight }} kg</p></div>
+          <div class="tkt-field"><label>Meal</label><p>{{ submittedData.mealPreference || 'Standard' }}</p></div>
+          <div class="tkt-field"><label>Add-ons</label><p>{{ submittedData.addOns?.join(', ') || 'None' }}</p></div>
+        </div>
+      </div>
+      <div class="tkt-footer">
+        <div class="tkt-barcode">
+          <span style="--w:1px;--h:44px"></span><span style="--w:3px;--h:36px"></span><span style="--w:1px;--h:48px"></span>
+          <span style="--w:2px;--h:32px"></span><span style="--w:1px;--h:42px"></span><span style="--w:4px;--h:48px"></span>
+          <span style="--w:1px;--h:36px"></span><span style="--w:2px;--h:44px"></span><span style="--w:1px;--h:28px"></span>
+          <span style="--w:3px;--h:48px"></span><span style="--w:1px;--h:38px"></span><span style="--w:2px;--h:44px"></span>
+        </div>
+        <div class="tkt-stamp"><div class="sico">✓</div><div>CONFIRMED</div></div>
+        <div class="tkt-pax">
+          <div class="pname">{{ submittedData.firstName }} {{ submittedData.lastName }}</div>
+          <div class="ppno">{{ submittedData.passportNo }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    ✈&nbsp; SkyPass &nbsp;·&nbsp; Online Passenger Registration System &nbsp;·&nbsp; Powered by Angular Material
+  </footer>
+
+</div>
